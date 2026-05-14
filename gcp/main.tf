@@ -29,7 +29,7 @@ resource "google_service_account" "vm_sa" {
 
 resource "google_project_iam_member" "storage_access" {
   project = "project-55dcf55b-027c-4122-a45"
-  role    = "roles/registry.writer"
+  role    = "roles/artifactregistry.writer"
   member  = "serviceAccount:${google_service_account.vm_sa.email}"
 }
 
