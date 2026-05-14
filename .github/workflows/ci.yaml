@@ -1,0 +1,19 @@
+name: Project 4
+on: [push]
+
+jobs:
+  auth_to_gcp:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - uses: 'actions/checkout@v4'
+
+    - uses: 'google-github-actions/auth@v3'
+      with:
+        service_account: 'project4-sa@project-55dcf55b-027c-4122-a45.iam.gserviceaccount.com'
+        workload_identity_provider: 'projects/1073687322815/locations/global/workloadIdentityPools/github-project4/providers/github'
+        token_format: 'access_token'
