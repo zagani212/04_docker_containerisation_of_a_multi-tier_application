@@ -28,8 +28,6 @@ jobs:
     - name: 'apply terraform'
       run: |
         cd gcp && terraform init
-        ls -la
-        pwd
         terraform apply -auto-approve
   
   build_and_push:
