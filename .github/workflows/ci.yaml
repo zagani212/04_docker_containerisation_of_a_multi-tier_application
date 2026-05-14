@@ -2,7 +2,7 @@ name: Project 4
 on: [push]
 
 jobs:
-  auth_to_gcp:
+  build_and_push:
     runs-on: ubuntu-latest
 
     permissions:
@@ -17,3 +17,12 @@ jobs:
         service_account: 'project4-sa@project-55dcf55b-027c-4122-a45.iam.gserviceaccount.com'
         workload_identity_provider: 'projects/1073687322815/locations/global/workloadIdentityPools/github-project4/providers/github'
         token_format: 'access_token'
+
+    - name: 'Docker Auth'
+      run: |-
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    - name: 'Build and Push'
+      run: |-
+        docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }} frontend/
+        docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }}
