@@ -4,8 +4,8 @@ on: [push]
 jobs:
 
   create_infra:
-  
     runs-on: ubuntu-latest
+    
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -18,8 +18,15 @@ jobs:
         service_account: 'project4-sa@project-55dcf55b-027c-4122-a45.iam.gserviceaccount.com'
         workload_identity_provider: 'projects/1073687322815/locations/global/workloadIdentityPools/github-project4/providers/github'
         token_format: 'access_token'
-    - name "apply terraform"
-      run: |-
+
+    - name: 'Setup Terraform'
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.15.0"
+        terraform_wrapper: false
+
+    - name: 'apply terraform'
+      run: |
         cd gcp && terraform init
         cd gcp && terraform apply -auto-approve
   
@@ -46,8 +53,11 @@ jobs:
     - name: 'Build and Push'
       run: |-
         docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }} frontend/
+        docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:latest frontend/
         docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }}
         docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:latest
+
         docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:${{ github.sha }} api/
+        docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:latest api/
         docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:${{ github.sha }}
         docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:latest
