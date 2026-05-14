@@ -26,3 +26,5 @@ jobs:
       run: |-
         docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }} frontend/
         docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }}
+        docker build -t us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:${{ github.sha }} api/
+        docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:${{ github.sha }}
