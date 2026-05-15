@@ -22,8 +22,18 @@ terraform {
 }
 
 
-resource "aws_ecr_repository" "example" {
-  name                 = "my-repository"
+resource "aws_ecr_repository" "frontend" {
+  name                 = "my-repository/frontend"
+  image_tag_mutability = "IMMUTABLE_WITH_EXCLUSION"
+
+  image_tag_mutability_exclusion_filter {
+    filter      = "latest*"
+    filter_type = "WILDCARD"
+  }
+}
+
+resource "aws_ecr_repository" "backend" {
+  name                 = "my-repository/backend"
   image_tag_mutability = "IMMUTABLE_WITH_EXCLUSION"
 
   image_tag_mutability_exclusion_filter {
