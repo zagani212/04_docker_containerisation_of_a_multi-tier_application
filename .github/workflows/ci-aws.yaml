@@ -1,0 +1,20 @@
+name: AWS Project 4
+on: [push]
+
+jobs:
+
+  create_infra:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - uses: 'actions/checkout@v4'
+
+    - name: Configure AWS credentials using OIDC
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::775698064297:role/project4-role
+        aws-region: eu-west-3
