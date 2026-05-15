@@ -18,3 +18,14 @@ jobs:
       with:
         role-to-assume: arn:aws:iam::775698064297:role/project4-role
         aws-region: eu-west-3
+
+    - name: 'Setup Terraform'
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.15.0"
+        terraform_wrapper: false
+
+    - name: 'apply terraform'
+      run: |
+        cd aws && terraform init
+        terraform apply -auto-approve
