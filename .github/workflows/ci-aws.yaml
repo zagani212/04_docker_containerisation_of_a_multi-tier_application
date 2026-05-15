@@ -60,6 +60,6 @@ jobs:
     
     - name: 'Push images'
       run: |-
-        docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/frontend:${{ github.sha }}
+        docker push ${{ steps.login-ecr.outputs.registry }}/my-repository/frontend:${{ github.sha }}
 
-        docker push us-central1-docker.pkg.dev/project-55dcf55b-027c-4122-a45/my-repository/backend:${{ github.sha }}
+        docker push ${{ steps.login-ecr.outputs.registry }}/my-repository/backend:${{ github.sha }}
